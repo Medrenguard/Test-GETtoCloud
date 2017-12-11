@@ -106,8 +106,12 @@
         for (var i = 0; i < word_array.length; i++) {
           bulktxt = bulktxt + str_size(word_array[i].text, 'Helvetica', options.minSize + word_array[i].weight * mainMultiplier);
         };
-        var baseCoef = Math.max(0, (word_array.length/100 - 1) * (-1.38)) + 2.22;
-        var currentCoef = Math.min(baseCoef / 1.38, maxBulktxt / bulktxt / baseCoef); /* for small lists */
+        var coef = {
+          base: 2.22,
+          sub: Math.max(0, (word_array.length/100 - 1) * (-1.38))
+        };
+        coef.main = coef.base + coef.sub;
+        coef.current = Math.min(coef.main / 1.38, maxBulktxt / bulktxt / coef.main);
       };
 
       // Function to draw a word, by moving it in spiral until it finds a suitable empty place. This will be iterated on each word.
@@ -187,7 +191,7 @@
         word_style.left = left + "px";
         word_style.top = top + "px";
         if (options.method === 'accurate') {
-        	word_style.fontSize = (options.minSize + word.weight * mainMultiplier * currentCoef) + "px";
+        	word_style.fontSize = (options.minSize + word.weight * mainMultiplier * coef.current) + "px";
         };
 
         while(hitTest(word_span[0], already_placed_words)) {
