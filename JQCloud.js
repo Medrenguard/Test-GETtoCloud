@@ -107,11 +107,11 @@
           bulktxt = bulktxt + str_size(word_array[i].text, 'Helvetica', options.minSize + word_array[i].weight * mainMultiplier);
         };
         var coef = {
-          base: 2.22,
-          sub: Math.max(0, (word_array.length/100 - 1) * (-1.38))
+          base: 2,
+          sub: Math.max(0, (word_array.length/500 - 1) * (-2))
         };
         coef.main = coef.base + coef.sub;
-        coef.current = Math.min(coef.main / 1.38, maxBulktxt / bulktxt / coef.main);
+        coef.current = Math.min(11, maxBulktxt / bulktxt) / coef.main;
       };
 
       // Function to draw a word, by moving it in spiral until it finds a suitable empty place. This will be iterated on each word.
@@ -180,6 +180,10 @@
 
         $this.append(word_span);
 
+        if (options.method === 'accurate') {
+          word_span[0].style.fontSize = (options.minSize + word.weight * mainMultiplier * coef.current) + "px";
+        }
+
         var width = word_span.width(),
             height = word_span.height(),
             left = options.center.x - width / 2.0,
@@ -190,9 +194,6 @@
         word_style.position = "absolute";
         word_style.left = left + "px";
         word_style.top = top + "px";
-        if (options.method === 'accurate') {
-        	word_style.fontSize = (options.minSize + word.weight * mainMultiplier * coef.current) + "px";
-        };
 
         while(hitTest(word_span[0], already_placed_words)) {
           // option shape is 'rectangular' so move the word in a rectangular spiral
@@ -220,8 +221,8 @@
             radius += step;
             angle += (index % 2 === 0 ? 1 : -1)*step;
 
-            left = options.center.x - (width / 2.0) + (radius*Math.cos(angle)) * aspect_ratio;
             top = options.center.y + radius*Math.sin(angle) - (height / 2.0);
+            left = options.center.x - (width / 2.0) + (radius*Math.cos(angle)) * aspect_ratio;
           }
           word_style.left = left + "px";
           word_style.top = top + "px";

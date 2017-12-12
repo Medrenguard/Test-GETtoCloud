@@ -57,10 +57,9 @@ body {
   margin: 0;
 }
 .b-method {
-  height: 91vh; 
+  height: 96vh; 
   width: 96%; 
   margin: 2vh auto; 
-  padding: 2vh; 
   z-index: 1;
 }
 #b-cloud-settings {
