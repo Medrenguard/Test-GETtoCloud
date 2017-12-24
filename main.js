@@ -61,7 +61,11 @@ function unzipRequest(str) {
 			phrase = phrase.replace(/`/g, '\'');
 		};
 		if (phrase.search('%') >= 0) {debugger;
-			phrase = convert_from_cp1251(phrase);
+			if (convert_from_cp1251(phrase).search('%') < 0) {
+				phrase = convert_from_cp1251(phrase);
+			} else {
+				phrase = unescape(phrase).replace(/&#\d+;/ig, ''); //cleaning from trash-symbols. Delete for debug. TODO: rebase in client's side.
+			};
 		}
 		return phrase;
 	};
@@ -76,6 +80,6 @@ $(function () {
 	$("#b-relative").jQCloud(mass, {method:'relative'});
 });
 $(function () {
-	$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6});
+	$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6, encodeURI: false});
 });
 setTimeout(function(){$("#b-accurate").toggleClass('hide')} , 100);
