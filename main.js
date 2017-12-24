@@ -60,7 +60,7 @@ function unzipRequest(str) {
 		if (phrase.search('`') >= 0) {
 			phrase = phrase.replace(/`/g, '\'');
 		};
-		if (phrase.search('%') >= 0) {
+		if (phrase.search('%') >= 0) {debugger;
 			phrase = convert_from_cp1251(phrase);
 		}
 		return phrase;
