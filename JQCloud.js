@@ -11,7 +11,7 @@
  * Custom update by https://github.com/Durkgame
  * Date: 12.2017
  * Added new method of information display 'accurate': default is now called 'relative';
- * Morover added attr 'minSize' for txt.
+ * Morover added attr 'minSize' for txt and custom 'importantTitle' for taking values from weight(not 'html' - for minify GET-request to service).
 */
 
 
@@ -37,6 +37,7 @@
       removeOverflowing: true,
       method: 'relative',
       minSize: 6,
+      importantTitle: false
     };
 
     options = $.extend(default_options, options || {});
@@ -149,6 +150,11 @@
         word_span = $('<span>').attr(word.html).addClass('c' + weight + " " + custom_class);
         if (options.method === 'relative') {
         	word_span = $(word_span).addClass('w' + weight);
+        };
+
+        // Taking values from weight
+        if (options.importantTitle) {
+          word_span = $(word_span).attr('title', word.weight);
         };
 
         // Append link if word.url attribute was set

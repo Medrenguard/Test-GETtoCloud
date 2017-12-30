@@ -60,7 +60,7 @@ function unzipRequest(str) {
 		if (phrase.search('`') >= 0) {
 			phrase = phrase.replace(/`/g, '\'');
 		};
-		if (phrase.search('%') >= 0) {debugger;
+		if (phrase.search('%') >= 0) {
 			if (convert_from_cp1251(phrase).search('%') < 0) {
 				phrase = convert_from_cp1251(phrase);
 			} else {
@@ -80,6 +80,6 @@ $(function () {
 	$("#b-relative").jQCloud(mass, {method:'relative'});
 });
 $(function () {
-	$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6, encodeURI: false});
+	$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6, importantTitle: true});
 });
 setTimeout(function(){$("#b-accurate").toggleClass('hide')} , 100);
