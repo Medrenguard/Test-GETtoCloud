@@ -1,11 +1,6 @@
-document.getElementById('cloud-relative').onclick = function() {
-	document.getElementById('b-accurate').classList.add('hide');
-	document.getElementById('b-relative').classList.remove('hide');
-};
-document.getElementById('cloud-accurate').onclick = function() {
-	document.getElementById('b-accurate').classList.remove('hide');
-	document.getElementById('b-relative').classList.add('hide');
-};
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 // Decode block
 
@@ -51,8 +46,22 @@ function convert_from_cp1251(str) {
 
 
 var mass = [];
+var unzipOptions = {};
 var get = unzipRequest(location.search.slice(1));
 function unzipRequest(str) {
+
+	function unzipHeader(header) {
+		header = header.split(',');
+		for (var i = 0; i < header.length; i++) {
+			header[i] = header[i].split(':');
+			/* check and transformation types */
+			if (isNumeric(header[i][1])) {header[i][1] = Number(header[i][1])}
+			else if (header[i][1] === 'true') {header[i][1] = true}
+			else if (header[i][1] === 'false') {header[i][1] = false};
+			unzipOptions[header[i][0]] = header[i][1];
+		};
+	};
+
 	function unzipPhrase(phrase) {
 		if (phrase.search('_') >= 0) {
 			phrase = phrase.replace(/_/g, ' ');
@@ -69,6 +78,10 @@ function unzipRequest(str) {
 		}
 		return phrase;
 	};
+	if (str[0] == '{') {
+		unzipHeader(str.slice(1, str.search('}')));
+		str = str.slice(str.search('}')+1);
+	};
 	str = str.split('|');
 	for (var i = 0; i < str.length; i++) {
 		str[i] = str[i].split(':');
@@ -76,10 +89,3 @@ function unzipRequest(str) {
 	};
 	return str;
 };
-$(function () {
-	$("#b-relative").jQCloud(mass, {method:'relative'});
-});
-$(function () {
-	$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6, importantTitle: true});
-});
-setTimeout(function(){$("#b-accurate").toggleClass('hide')} , 100);

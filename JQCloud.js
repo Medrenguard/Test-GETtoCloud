@@ -35,9 +35,10 @@
       shape: false, // It defaults to elliptic shape
       encodeURI: true,
       removeOverflowing: true,
-      method: 'relative',
+      method: 'accurate',
       minSize: 6,
-      importantTitle: false
+      baseCoef: 2,
+      importantTitle: true
     };
 
     options = $.extend(default_options, options || {});
@@ -108,7 +109,7 @@
           bulktxt = bulktxt + str_size(word_array[i].text, 'Helvetica', options.minSize + word_array[i].weight * mainMultiplier);
         };
         var coef = {
-          base: 2,
+          base: options.baseCoef,
           sub: Math.max(0, (word_array.length/500 - 1) * (-2))
         };
         coef.main = coef.base + coef.sub;

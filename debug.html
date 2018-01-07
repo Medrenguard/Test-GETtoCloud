@@ -8,13 +8,32 @@
 	<link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMTnU1rJkAAABQklEQVQ4T41TQWrDMBDMpZdSSqC59Ak+9FI/wGAb7IOJznlO7nmBA/6HCRTaH+SWa15QfGkuIemMskpXjhxXsEha7Y5mV6PJZGBkWfaW5/mZxvVQ3NWfJMlTmqbvdFRV9YiktQJosH/hGXwRYmceIJMR8InDE+wD9u2S1XzAeoO4I+atB8KbJdlSHjMBiTwWcrOreYcgQ2bCzmC/UyW1XjJrdrQZiKRpURSvWC9hKzaRPgeCuWOOBeFhr2GmLMtn+PaqlB+JM4pFbV+nXy8pw7fo+8lEzrweDQHMAwDLIIBQqxU1E8fxA/ZfyreXnugSqI2LwEQ4najONlFAyGTBnugmwndwwrq+BhytuvHuM1JQfQ1EIo5REQlLqvFPSJQl5SkgG1IMNLEjy6CUSUdALCrrgzX6zZ1wePPNZwp91f9+519SMCQFEv4PCgAAAABJRU5ErkJggg==" type="image/png"/>
 </head>
 <body>
-	<div id="b-main" class="b-method"></div>
+	<div id="b-relative" class="b-method"></div>
+	<div id="b-accurate" class="b-method"></div>
+	<div id="b-cloud-settings">
+		<input id="cloud-relative" type="radio" name="cloud-settings" value="relative" checked><label for="cloud-relative">Relative</label>
+		<input id="cloud-accurate" type="radio" name="cloud-settings" value="accurate"><label for="cloud-accurate">Accurate</label>
+	</div>
 	<script
 	src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="JQCloud.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script>
-		$("#b-main").jQCloud(mass, unzipOptions);
+		document.getElementById('cloud-relative').onclick = function() {
+			document.getElementById('b-accurate').classList.add('hide');
+			document.getElementById('b-relative').classList.remove('hide');
+		};
+		document.getElementById('cloud-accurate').onclick = function() {
+			document.getElementById('b-accurate').classList.remove('hide');
+			document.getElementById('b-relative').classList.add('hide');
+		};
+		$(function () {
+			$("#b-relative").jQCloud(mass, {method:'relative'});
+		});
+		$(function () {
+			$("#b-accurate").jQCloud(mass, {method:'accurate', minSize: 6, importantTitle: true});
+		});
+		setTimeout(function(){$("#b-accurate").toggleClass('hide')} , 100);
 	</script>
 </body>
 </html>
